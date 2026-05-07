@@ -1,0 +1,27 @@
+FROM maven:3.8-eclipse-temurin-8 as builder
+
+WORKDIR /build
+
+# Copy pom files
+COPY pom.xml .
+COPY exec-core/pom.xml exec-core/
+COPY exec-analysis/pom.xml exec-analysis/
+COPY exec-api/pom.xml exec-api/
+COPY exec-ui/pom.xml exec-ui/
+COPY pmd.xml .
+
+# Download dependencies
+RUN mvn dependency:go-offline -B || true
+
+# Copy source code
+COPY exec-core/src exec-core/src
+COPY exec-analysis/src exec-analysis/src
+
+# Build the project
+RUN mvn clean package -DskipTests -pl exec-core,exec-analysis
+
+# Analysis Image
+FROM eclipse-temurin:8-jre
+VOLUME /var/app/config
+COPY --from=builder /build/exec-analysis/target/exec-analysis-1.0.0-SNAPSHOT.jar /var/app/analysis.jar
+ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /var/app/analysis.jar --spring.config.location=/var/app/config/application.properties

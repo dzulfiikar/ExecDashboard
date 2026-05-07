@@ -1,53 +1,64 @@
-version: '3'
 services:
   exec-db:
-    image: mongo:latest
+    image: mongo:4.4
     ports:
       - "27000:27017"
     volumes:
       - "execdb-data:/data/db"
     networks:
       - hygieia_default
+    environment:
+      - MONGO_INITDB_DATABASE=analyticsdb
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/analyticsdb --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   exec-db-setup:
     build: exec-db
     depends_on:
-      - exec-db
+      exec-db:
+        condition: service_healthy
     networks:
       - hygieia_default
-    links:
-      - "exec-db:db"
+    environment:
+      - MONGO_HOST=exec-db
+
+  exec-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./config/api:/var/app/config"
+    depends_on:
+      exec-db-setup:
+        condition: service_completed_successfully
+    networks:
+      - hygieia_default
+
+  exec-analysis:
+    build:
+      context: .
+      dockerfile: Dockerfile.analysis
+    volumes:
+      - "./config/analysis:/var/app/config"
+    depends_on:
+      exec-db-setup:
+        condition: service_completed_successfully
+    networks:
+      - hygieia_default
 
   exec-ui:
     build: exec-ui
     ports:
       - "4200:80"
     depends_on:
-      - exec-db-setup
+      - exec-api
     environment:
       - API_URL=http://exec-api:8080
-    networks:
-      - hygieia_default
-
-  exec-api:
-    build:
-      context: exec-api
-      args:
-        JAR_FILE: "./target/exec-api*.jar"
-    volumes:
-      - "./config/api:/var/app/config"
-    depends_on:
-      - exec-db-setup
-    networks:
-      - hygieia_default
-
-  exec-analysis:
-    build:
-      context: exec-analysis
-      args:
-        JAR_FILE: "./target/exec-analysis*.jar"
-    volumes:
-      - "./config/analysis:/var/app/config"
     networks:
       - hygieia_default
 

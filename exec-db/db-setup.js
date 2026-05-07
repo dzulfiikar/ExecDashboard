@@ -1,12 +1,14 @@
-use analyticsdb;
+db = db.getSiblingDB('analyticsdb');
 
 db.createUser({
   user: "analyticsuser",
   pwd: "analyticspass",
-  "roles": [
+  roles: [
     {
-      "role": "readWrite",
-      "db": "analyticsdb"
+      role: "readWrite",
+      db: "analyticsdb"
     }
   ]
 });
+
+print("Database user created successfully!");

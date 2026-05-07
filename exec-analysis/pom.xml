@@ -251,17 +251,21 @@
             <version>2.7</version>
         </dependency>
 
+        <!-- Commented out - library not available in Maven Central
         <dependency>
-            <groupId>com.github.steveash.hnp</groupId>
+            <groupId>com.github.tupilabs</groupId>
             <artifactId>human-name-parser</artifactId>
-            <version>LATEST</version>
+            <parameter name="version">0.3</version>
         </dependency>
+        -->
 
+        <!-- Commented out - library not available in Maven Central
         <dependency>
             <groupId>com.cloudera.sparkts</groupId>
             <artifactId>sparkts</artifactId>
-            <version>LATEST</version>
+            <version>0.4.1</version>
         </dependency>
+        -->
         
 
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java -->

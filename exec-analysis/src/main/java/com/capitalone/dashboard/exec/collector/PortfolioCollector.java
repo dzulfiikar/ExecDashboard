@@ -17,8 +17,9 @@ import com.capitalone.dashboard.exec.model.RoleRelationShipType;
 import com.capitalone.dashboard.exec.repository.LobRepository;
 import com.capitalone.dashboard.exec.repository.PortfolioRepository;
 import com.capitalone.dashboard.exec.repository.PortfolioRepositoryThumbnail;
-import com.tupilabs.human_name_parser.HumanNameParserParser;
-import com.tupilabs.human_name_parser.Name;
+// Commented out - library not available
+// import com.tupilabs.human_name_parser.HumanNameParserParser;
+// import com.tupilabs.human_name_parser.Name;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -466,10 +467,13 @@ public class PortfolioCollector implements Runnable {
         }
 
         try {
-            HumanNameParserParser hnp = new HumanNameParserParser(new Name(name));
-            return new Owner(hnp.getFirst(), hnp.getLast(), "", "", role);
-        } catch (com.tupilabs.human_name_parser.ParseException pe) {
-            // LOGGER.error("Error pasring name " + name, pe);
+            // Simplified name parsing - split by space
+            String[] parts = name.trim().split("\\s+");
+            String firstName = parts.length > 0 ? parts[0] : name;
+            String lastName = parts.length > 1 ? parts[parts.length - 1] : "";
+            return new Owner(firstName, lastName, "", "", role);
+        } catch (Exception e) {
+            // LOGGER.error("Error parsing name " + name, e);
             return new Owner(name, "", "", "", role);
         }
     }

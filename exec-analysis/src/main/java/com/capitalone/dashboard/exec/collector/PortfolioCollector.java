@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 import scala.collection.JavaConversions;
 import scala.collection.mutable.WrappedArray;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -246,7 +246,7 @@ public class PortfolioCollector implements Runnable {
         portfolioRepositoryThumbnail.deleteAll();
         getPortfolioWithThumbnails(portfolioList);
         portfolioRepository.deleteAll();
-        portfolioRepository.save(portfolioList);
+        portfolioRepository.saveAll(portfolioList);
         LOGGER.info("##### End: collectCMDB #####");
     }
 
@@ -280,7 +280,7 @@ public class PortfolioCollector implements Runnable {
         }
 
         portfolioRepository.deleteAll();
-        portfolioRepository.save(portfolioList);
+        portfolioRepository.saveAll(portfolioList);
 
         return portfolioList;
     }
@@ -309,7 +309,7 @@ public class PortfolioCollector implements Runnable {
             lob.addOwner(new PeopleRoleRelation(getPeople(pName, "businessOwner"), RoleRelationShipType.BusinessOwner));
         }
         lobRepository.deleteAll();
-        return lobRepository.save(lobList);
+        return lobRepository.saveAll(lobList);
     }
 
     private void addProductToPortfolio(Portfolio portfolio, Row productRow) {
@@ -513,7 +513,7 @@ public class PortfolioCollector implements Runnable {
             portfolioThumbnail.setThumbnail(thumbNail);
             portfolioListThumbnail.add(portfolioThumbnail);
         }
-        portfolioRepositoryThumbnail.save(portfolioListThumbnail);
+        portfolioRepositoryThumbnail.saveAll(portfolioListThumbnail);
     }
 
     public List<Person> findByName(String name) {

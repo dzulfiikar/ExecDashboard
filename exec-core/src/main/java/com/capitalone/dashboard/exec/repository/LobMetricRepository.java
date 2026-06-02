@@ -4,13 +4,12 @@ import com.capitalone.dashboard.exec.model.LobMetricDetail;
 import com.capitalone.dashboard.exec.model.MetricType;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 public interface LobMetricRepository
-        extends CrudRepository<LobMetricDetail, ObjectId>, QueryDslPredicateExecutor<LobMetricDetail> {
+        extends CrudRepository<LobMetricDetail, ObjectId> {
 
     LobMetricDetail findByNameAndType(String name, MetricType type);
     List<LobMetricDetail> findByName(String name);

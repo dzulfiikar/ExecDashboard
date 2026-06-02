@@ -40,6 +40,9 @@ public enum MetricType {
             .collect(Collectors.toMap(x -> x.name, Function.identity()));
 
     public static MetricType fromString(String string) {
+        if ("open-source-violations".equals(string)) {
+            return OPEN_SOURCE_VIOLATIONS;
+        }
         return fromStringMap.get(string);
     }
 

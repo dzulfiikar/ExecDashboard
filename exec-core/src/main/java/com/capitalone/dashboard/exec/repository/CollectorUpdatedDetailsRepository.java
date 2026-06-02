@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.CollectorType;
 import com.capitalone.dashboard.exec.model.CollectorUpdatedDetails;
@@ -16,7 +16,7 @@ import com.capitalone.dashboard.exec.model.CollectorUpdatedDetails;
  *
  */
 public interface CollectorUpdatedDetailsRepository
-		extends PagingAndSortingRepository<CollectorUpdatedDetails, ObjectId> {
+		extends MongoRepository<CollectorUpdatedDetails, ObjectId> {
 	/**
 	 * findByCollectionNameAndType
 	 * 

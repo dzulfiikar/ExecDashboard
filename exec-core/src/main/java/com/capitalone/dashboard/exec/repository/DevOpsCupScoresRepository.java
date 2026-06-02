@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.DevOpsCupScores;
 
 /**
  * Interface DevOpsCupScoresRepository extends
- * PagingAndSortingRepository<DevOpsCupScores, ObjectId>
+ * MongoRepository<DevOpsCupScores, ObjectId>
  */
-public interface DevOpsCupScoresRepository extends PagingAndSortingRepository<DevOpsCupScores, ObjectId> {
+public interface DevOpsCupScoresRepository extends MongoRepository<DevOpsCupScores, ObjectId> {
 	/**
 	 * 
 	 * @param appList

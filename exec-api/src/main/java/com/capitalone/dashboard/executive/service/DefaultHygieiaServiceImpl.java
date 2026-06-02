@@ -3,9 +3,11 @@ package com.capitalone.dashboard.executive.service;
 import com.capitalone.dashboard.exec.model.BunitCredentials;
 import com.capitalone.dashboard.exec.model.Dashboard;
 import com.capitalone.dashboard.exec.repository.DashboardRepository;
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -189,8 +191,11 @@ public class DefaultHygieiaServiceImpl implements DefaultHygieiaService {
 				MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(
 						bunitCredential.getDbUserName(), bunitCredential.getDbName(),
 						bunitCredential.getDbUserCredentials().toCharArray());
-				MongoClient client = new MongoClient(serverAddr, Collections.singletonList(mongoCredential));
-				return client;
+				MongoClientSettings settings = MongoClientSettings.builder()
+						.applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(serverAddr)))
+						.credential(mongoCredential)
+						.build();
+				return MongoClients.create(settings);
 			}
 		} catch (Exception e) {
 			LOG.error(e.getMessage());

@@ -1,4 +1,4 @@
-FROM maven:3.8-eclipse-temurin-8 as builder
+FROM maven:3.9.9-eclipse-temurin-17 as builder
 
 WORKDIR /build
 
@@ -18,10 +18,10 @@ COPY exec-core/src exec-core/src
 COPY exec-analysis/src exec-analysis/src
 
 # Build the project
-RUN mvn clean package -DskipTests -pl exec-core,exec-analysis
+RUN mvn clean package -Dpmd.skip=true -pl exec-core,exec-analysis
 
 # Analysis Image
-FROM eclipse-temurin:8-jre
+FROM eclipse-temurin:17-jre
 VOLUME /var/app/config
 COPY --from=builder /build/exec-analysis/target/exec-analysis-1.0.0-SNAPSHOT.jar /var/app/analysis.jar
 ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /var/app/analysis.jar --spring.config.location=/var/app/config/application.properties

@@ -227,7 +227,7 @@ public class UtilityServiceImpl implements UtilityService {
 	public Map<String, String> getActiveCardsSelectPreview() {
 		Map<String, String> cardsEnabled = new HashMap<>();
 		List<CardsList> cardsList = cardsListRepository.findByDefaultMetricsAndEnabled(true, true,
-				new PageRequest(0, 9));
+				PageRequest.of(0, 9));
 		if (cardsList != null && !cardsList.isEmpty()) {
 			for (CardsList cards : cardsList) {
 				cardsEnabled.put(cards.getCardName(), cards.getPreviewName());
@@ -267,7 +267,7 @@ public class UtilityServiceImpl implements UtilityService {
 	public List<DevOpsCupScores> getPortfolioMetricProductsForDevopscup(MetricType metricType, String portfolioId) {
 		ObjectId id = new ObjectId(portfolioId);
 		List<DevOpsCupScores> devopscupScoreList = new ArrayList<>();
-		PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(id);
+		PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(id).orElse(null);
 		if (portfolioResponse != null) {
 			ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
 					.findByEid(portfolioResponse.getEid());

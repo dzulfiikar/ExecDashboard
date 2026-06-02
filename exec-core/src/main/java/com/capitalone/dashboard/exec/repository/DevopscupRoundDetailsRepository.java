@@ -1,7 +1,7 @@
 package com.capitalone.dashboard.exec.repository;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.DevopscupRoundDetails;
 
@@ -11,7 +11,7 @@ import com.capitalone.dashboard.exec.model.DevopscupRoundDetails;
  * 
  *
  */
-public interface DevopscupRoundDetailsRepository extends PagingAndSortingRepository<DevopscupRoundDetails, ObjectId> {
+public interface DevopscupRoundDetailsRepository extends MongoRepository<DevopscupRoundDetails, ObjectId> {
 	/**
 	 * 
 	 * @param active

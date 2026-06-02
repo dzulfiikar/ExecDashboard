@@ -1,4 +1,4 @@
-FROM mongo:4.4
+FROM mongo:7.0
 
 ADD db-setup.sh /tmp/db-setup.sh
 ADD db-setup.js /tmp/db-setup.js

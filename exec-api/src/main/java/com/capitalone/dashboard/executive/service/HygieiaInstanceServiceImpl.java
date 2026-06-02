@@ -181,7 +181,7 @@ public class HygieiaInstanceServiceImpl implements HygieiaInstanceService {
 	 */
 	@Override
 	public List<String> getBusinessUnits() {
-		return mongoTemplate.getCollection("dashboards").distinct("businessUnit");
+		return mongoTemplate.getCollection("dashboards").distinct("businessUnit", String.class).into(new ArrayList<>());
 	}
 
 	/**

@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.CardsList;
 
 /**
- * Interface CardsListRepository extends PagingAndSortingRepository<CardsList,
+ * Interface CardsListRepository extends MongoRepository<CardsList,
  * ObjectId>
  * 
  *
  */
-public interface CardsListRepository extends PagingAndSortingRepository<CardsList, ObjectId> {
+public interface CardsListRepository extends MongoRepository<CardsList, ObjectId> {
 
 	/**
 	 * findByEnabled()

@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.ExecutiveComponents;
 
 /**
  * Interface ExecutiveComponentRepository extends
- * PagingAndSortingRepository<ExecutiveComponents, ObjectId>
+ * MongoRepository<ExecutiveComponents, ObjectId>
  * 
  *
  */
-public interface ExecutiveComponentRepository extends PagingAndSortingRepository<ExecutiveComponents, ObjectId> {
+public interface ExecutiveComponentRepository extends MongoRepository<ExecutiveComponents, ObjectId> {
 
 	/**
 	 * findByAppId()

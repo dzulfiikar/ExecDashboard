@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class VastServiceImpl implements VastService {
 
 		HashMap<String, Vast> hashMap = new HashMap<>();
 		try {
-			List<String> devopscupAppList = mongoTemplate.getCollection("devopscup_scores").distinct("appId");
+			List<String> devopscupAppList = mongoTemplate.getCollection("devopscup_scores").distinct("appId", String.class).into(new ArrayList<>());
 			List<Vast> vastDetailsList = vastRepository.getVastByAppIdList(devopscupAppList);
 			for (Vast vastDetail : vastDetailsList) {
 				hashMap.put(vastDetail.getVastApplID(), vastDetail);

@@ -1,6 +1,6 @@
 services:
   exec-db:
-    image: mongo:4.4
+    image: mongo:7.0
     ports:
       - "27000:27017"
     volumes:
@@ -10,7 +10,7 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=analyticsdb
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/analyticsdb --quiet
+      test: ["CMD-SHELL", "mongosh --quiet localhost:27017/analyticsdb --eval 'db.runCommand({ ping: 1 }).ok'"]
       interval: 10s
       timeout: 5s
       retries: 5

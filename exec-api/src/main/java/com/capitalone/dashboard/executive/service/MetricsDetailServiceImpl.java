@@ -33,7 +33,7 @@ public class MetricsDetailServiceImpl implements MetricsDetailService {
     @Override
     public MetricSummary getMetricSummary(MetricLevel level, MetricType type, String id) {
         ObjectId portfolioId = new ObjectId(id);
-        PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+        PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
         if (portfolioResponse != null) {
             MetricsDetail metricPortfolioDetailResponse = metricsDetailRepository
                     .findByMetricLevelIdAndLevelAndType(portfolioResponse.getEid(), level, type);
@@ -46,7 +46,7 @@ public class MetricsDetailServiceImpl implements MetricsDetailService {
     @Override
     public MetricsDetail getMetricsDetail(MetricLevel level, MetricType type, String id) {
         ObjectId portfolioId = new ObjectId(id);
-        PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+        PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
         if (portfolioResponse != null) {
             MetricsDetail metricPortfolioDetailResponse = metricsDetailRepository
                     .findByMetricLevelIdAndLevelAndType(portfolioResponse.getEid(), level, type);
@@ -59,7 +59,7 @@ public class MetricsDetailServiceImpl implements MetricsDetailService {
     @Override
     public MetricSummary getMetricSummaryForProducts(MetricLevel level, MetricType type, String productId) {
         ObjectId id = new ObjectId(productId);
-        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findOne(id);
+        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findById(id).orElse(null);
         if (buildingBlockMetricSummary != null) {
             MetricsDetail metricPortfolioDetailResponse = metricsDetailRepository
                     .findByMetricLevelIdAndLevelAndType(buildingBlockMetricSummary.getMetricLevelId(), level, type);
@@ -72,7 +72,7 @@ public class MetricsDetailServiceImpl implements MetricsDetailService {
     @Override
     public MetricsDetail getMetricsDetailForProducts(MetricLevel level, MetricType type, String productId) {
         ObjectId id = new ObjectId(productId);
-        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findOne(id);
+        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findById(id).orElse(null);
         if (buildingBlockMetricSummary != null) {
             MetricsDetail metricPortfolioDetailResponse = metricsDetailRepository
                     .findByMetricLevelIdAndLevelAndType(buildingBlockMetricSummary.getMetricLevelId(), level, type);

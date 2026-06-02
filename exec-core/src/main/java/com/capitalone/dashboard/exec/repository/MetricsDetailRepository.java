@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.MetricLevel;
 import com.capitalone.dashboard.exec.model.MetricType;
@@ -16,7 +16,7 @@ import com.capitalone.dashboard.exec.model.MetricsDetail;
  *
  */
 
-public interface MetricsDetailRepository extends PagingAndSortingRepository<MetricsDetail, ObjectId> {
+public interface MetricsDetailRepository extends MongoRepository<MetricsDetail, ObjectId> {
 
 	/**
 	 * 

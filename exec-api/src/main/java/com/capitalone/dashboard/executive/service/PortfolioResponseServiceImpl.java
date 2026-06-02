@@ -71,7 +71,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 				eids.add(executiveSummary.getEid());
 			}
 			if (!eids.isEmpty()) {
-				Sort sort = new Sort(new Order(Direction.ASC, "order"),
+				Sort sort = Sort.by(new Order(Direction.ASC, "order"),
 						new Order(Direction.ASC, "executive.firstName"));
 				return portfolioResponseRepository.getByEidsWithSort(eids, sort);
 			}
@@ -89,7 +89,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	@Override
 	public PortfolioResponse findById(String id) {
 		ObjectId portfolioId = new ObjectId(id);
-		return portfolioResponseRepository.findOne(portfolioId);
+		return portfolioResponseRepository.findById(portfolioId).orElse(null);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	 */
 	@Override
 	public List<String> getAllBusinessUnits() {
-		return mongoTemplate.getCollection("app_details").distinct("lob");
+		return mongoTemplate.getCollection("app_details").distinct("lob", String.class).into(new ArrayList<>());
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 				eids.add(executiveSummary.getEid());
 			}
 			if (!eids.isEmpty()) {
-				Sort sort = new Sort(new Order(Direction.ASC, "order"),
+				Sort sort = Sort.by(new Order(Direction.ASC, "order"),
 						new Order(Direction.ASC, "executive.firstName"));
 				return portfolioResponseRepository.getByEidsWithSort(eids, sort);
 			}
@@ -183,7 +183,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 			}
 		}
 		if (!reportingEids.isEmpty()) {
-			Sort sort = new Sort(new Order(Direction.ASC, "order"), new Order(Direction.ASC, "executive.firstName"));
+			Sort sort = Sort.by(new Order(Direction.ASC, "order"), new Order(Direction.ASC, "executive.firstName"));
 			return portfolioResponseRepository.getByEidsWithSort(reportingEids, sort);
 		}
 		return new ArrayList();
@@ -198,7 +198,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	 */
 	@Override
 	public List<String> getConfigApps(String portfolioId) {
-		PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(new ObjectId(portfolioId));
+		PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(new ObjectId(portfolioId)).orElse(null);
 		ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
 				.findByEid(portfolioResponse.getEid());
 		return executiveSummaryList.getConfiguredAppId();
@@ -242,7 +242,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	public Map<String, String> getReportings(String eid) {
 		ObjectId portfolioId = new ObjectId(eid);
 		Map<String, String> executives = new HashMap<>();
-		PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+		PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
 		if (portfolioResponse != null) {
 			ExecutiveHierarchy executiveHierarchy = executiveHierarchyRepository.findByEid(portfolioResponse.getEid());
 			if (executiveHierarchy != null && executiveHierarchy.getReportees() != null) {
@@ -273,7 +273,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	public List<String> getAllBusinessUnitsForExec(String eid) {
 		List<String> bunits = new ArrayList<>();
 		ObjectId portfolioId = new ObjectId(eid);
-		PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+		PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
 		if (portfolioResponse != null) {
 			ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
 					.findByEid(portfolioResponse.getEid());
@@ -287,7 +287,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	public Map<String, String> getApplicationListForExec(String id) {
 		Map<String, String> appIds = new HashMap<>();
 		ObjectId portfolioId = new ObjectId(id);
-		PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+		PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
 		if (portfolioResponse != null) {
 			ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
 					.findByEid(portfolioResponse.getEid());
@@ -325,7 +325,7 @@ public class PortfolioResponseServiceImpl implements PortfolioResponseService {
 	public Map<String, String> getApplicationListForExecWithPortfolio(String businessUnit, String id) {
 		Map<String, String> appIds = new HashMap<>();
 		ObjectId portfolioId = new ObjectId(id);
-		PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+		PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
 		if (portfolioResponse != null) {
 			ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
 					.findByEid(portfolioResponse.getEid());

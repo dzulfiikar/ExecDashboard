@@ -1,11 +1,11 @@
 package com.capitalone.dashboard.exec.repository;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.MetricDetailResponse;
 
-public interface MetricDetailResponseRepository extends PagingAndSortingRepository<MetricDetailResponse, ObjectId> {
+public interface MetricDetailResponseRepository extends MongoRepository<MetricDetailResponse, ObjectId> {
 
 	MetricDetailResponse findByAppIdAndMetricsName(String appId, String metricsName);
 

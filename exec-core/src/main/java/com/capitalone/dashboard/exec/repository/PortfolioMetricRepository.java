@@ -4,13 +4,12 @@ import com.capitalone.dashboard.exec.model.MetricType;
 import com.capitalone.dashboard.exec.model.PortfolioMetricDetail;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 public interface PortfolioMetricRepository
-        extends CrudRepository<PortfolioMetricDetail, ObjectId>, QueryDslPredicateExecutor<PortfolioMetricDetail> {
+        extends CrudRepository<PortfolioMetricDetail, ObjectId> {
 
     PortfolioMetricDetail findByNameAndLobAndType (String name, String lob, MetricType type);
     List<PortfolioMetricDetail> findByNameAndLob (String name, String lob);

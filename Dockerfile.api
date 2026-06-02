@@ -1,4 +1,4 @@
-FROM maven:3.8-eclipse-temurin-8 as builder
+FROM maven:3.9.9-eclipse-temurin-17 as builder
 
 WORKDIR /build
 
@@ -19,10 +19,10 @@ COPY exec-analysis/src exec-analysis/src
 COPY exec-api/src exec-api/src
 
 # Build the project
-RUN mvn clean package -DskipTests -pl exec-core,exec-analysis,exec-api
+RUN mvn clean package -Dpmd.skip=true -pl exec-core,exec-analysis,exec-api
 
 # API Image
-FROM eclipse-temurin:8-jre as api
+FROM eclipse-temurin:17-jre as api
 EXPOSE 8080
 VOLUME /var/app/config
 COPY --from=builder /build/exec-api/target/exec-api.jar /var/app/app.jar

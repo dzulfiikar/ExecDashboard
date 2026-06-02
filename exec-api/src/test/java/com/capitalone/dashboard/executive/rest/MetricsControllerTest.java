@@ -46,55 +46,55 @@ public class MetricsControllerTest {
     @Test
     public void getPortfolioMetricSummary() throws Exception {
         when(metricsService.getPortfolioMetricSummary(MetricType.SCM_COMMITS,"portfolio1", "lob")).thenReturn(TestUtils.makeProductMetricDetail());
-        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/SCM/portfolio/portfolio1/lob/summary"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/scm-commits/portfolio/portfolio1/lob/summary"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(metricsService).getPortfolioMetricSummary(null,"portfolio1", "lob");
+        verify(metricsService).getPortfolioMetricSummary(MetricType.SCM_COMMITS,"portfolio1", "lob");
     }
 
     @Test
     public void getPortfolioMetricProducts() throws Exception {
         when(metricsService.getPortfolioMetricProducts(MetricType.SCM_COMMITS,"portfolio1", "lob")).thenReturn(Stream.of(TestUtils.makeBuildingBlockMetricSummary()).collect(Collectors.toList()));
-        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/SCM/portfolio/portfolio1/lob/product"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/scm-commits/portfolio/portfolio1/lob/product"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(metricsService).getPortfolioMetricProducts(null,"portfolio1", "lob");
+        verify(metricsService).getPortfolioMetricProducts(MetricType.SCM_COMMITS,"portfolio1", "lob");
     }
 
     @Test
     public void getProductMetricDetail() throws Exception {
         when(metricsService.getProductMetricDetail(MetricType.SCM_COMMITS,"portfolio1", "lob","product1")).thenReturn(TestUtils.makeProductMetricDetail());
-        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/SCM/product/portfolio1/lob/product1/detail"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/scm-commits/product/portfolio1/lob/product1/detail"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(metricsService).getProductMetricDetail(null,"portfolio1", "lob","product1");
+        verify(metricsService).getProductMetricDetail(MetricType.SCM_COMMITS,"portfolio1", "lob","product1");
     }
 
     @Test
     public void getProductMetricSummary() throws Exception {
         when(metricsService.getProductMetricSummary(MetricType.SCM_COMMITS,"portfolio1", "lob","product1")).thenReturn(TestUtils.makeProductMetricDetail());
-        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/SCM/product/portfolio1/lob/product1/summary"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/scm-commits/product/portfolio1/lob/product1/summary"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(metricsService).getProductMetricSummary(null,"portfolio1", "lob","product1");
+        verify(metricsService).getProductMetricSummary(MetricType.SCM_COMMITS,"portfolio1", "lob","product1");
     }
 
     @Test
     public void getPortfolioMetricDetail() throws Exception {
         when(metricsService.getPortfolioMetricDetail(MetricType.SCM_COMMITS,"portfolio1", "lob")).thenReturn(TestUtils.makeProductMetricDetail());
-        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/SCM/portfolio/portfolio1/lob/detail"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/scm-commits/portfolio/portfolio1/lob/detail"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(metricsService).getPortfolioMetricDetail(null,"portfolio1", "lob");
+        verify(metricsService).getPortfolioMetricDetail(MetricType.SCM_COMMITS,"portfolio1", "lob");
     }
 
     @Test
     public void getProductMetricComponents() throws Exception {
         when(metricsService.getProductMetricComponents(MetricType.SCM_COMMITS,"portfolio1", "lob","product1")).thenReturn(Stream.of(TestUtils.makeBuildingBlockMetricSummary()).collect(Collectors.toList()));
-        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/SCM/product/portfolio1/lob/product1/component"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/metrics/scm-commits/product/portfolio1/lob/product1/component"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(metricsService).getProductMetricComponents(null,"portfolio1", "lob","product1");
+        verify(metricsService).getProductMetricComponents(MetricType.SCM_COMMITS,"portfolio1", "lob","product1");
     }
 
 

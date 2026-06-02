@@ -1,7 +1,7 @@
 package com.capitalone.dashboard.executive.service;
 
 import com.capitalone.dashboard.exec.model.BunitCredentials;
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 
 import java.util.List;

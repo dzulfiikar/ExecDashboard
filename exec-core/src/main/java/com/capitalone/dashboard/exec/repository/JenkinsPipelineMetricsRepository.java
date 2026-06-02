@@ -1,7 +1,7 @@
 package com.capitalone.dashboard.exec.repository;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.JenkinsPipelineMetrics;
 
@@ -9,7 +9,7 @@ import com.capitalone.dashboard.exec.model.JenkinsPipelineMetrics;
  *
  *
  */
-public interface JenkinsPipelineMetricsRepository extends PagingAndSortingRepository<JenkinsPipelineMetrics, ObjectId> {
+public interface JenkinsPipelineMetricsRepository extends MongoRepository<JenkinsPipelineMetrics, ObjectId> {
 
 	/**
 	 * @param appId

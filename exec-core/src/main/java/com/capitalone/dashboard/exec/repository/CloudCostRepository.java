@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.CloudCost;
 
 /**
- * Interface CloudCostRepository extends PagingAndSortingRepository<CloudCost,
+ * Interface CloudCostRepository extends MongoRepository<CloudCost,
  * ObjectId>
  *
  */
-public interface CloudCostRepository extends PagingAndSortingRepository<CloudCost, ObjectId> {
+public interface CloudCostRepository extends MongoRepository<CloudCost, ObjectId> {
 
 	/**
 	 * @param appId

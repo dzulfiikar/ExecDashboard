@@ -1,27 +1,29 @@
 package com.capitalone.dashboard.exec.config;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @EnableMongoRepositories("com.capitalone.dashboard.exec.repository")
-public class HygieiaExecMongoConfig extends AbstractMongoConfiguration {
+public class HygieiaExecMongoConfig extends AbstractMongoClientConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(com.capitalone.dashboard.exec.config.HygieiaExecMongoConfig.class);
 
     @Value("${dbname:dashboard}")
@@ -46,57 +48,42 @@ public class HygieiaExecMongoConfig extends AbstractMongoConfiguration {
 
     @Override
     @Bean
-    public MongoClient mongo() throws Exception {
-
-        MongoClient client;
-        LOGGER.info("ReplicaSet" + dbreplicaset);
-
-        MongoClientOptions.Builder builder = new MongoClientOptions.Builder();
-        builder.maxConnectionIdleTime(60000);
-        MongoClientOptions opts = builder.build();
+    public MongoClient mongoClient() {
+        MongoClientSettings.Builder settings = MongoClientSettings.builder()
+                .applyToConnectionPoolSettings(builder -> builder.maxConnectionIdleTime(60000, java.util.concurrent.TimeUnit.MILLISECONDS));
 
         if (Boolean.parseBoolean(dbreplicaset)) {
-            List<ServerAddress> serverAddressList = new ArrayList<>();
-            hostport.forEach(h -> {
-                String myHost = h.substring(0, h.indexOf(":"));
-                int myPort = Integer.parseInt(h.substring(h.indexOf(":") + 1, h.length()));
-                ServerAddress serverAddress = new ServerAddress(myHost, myPort);
-                serverAddressList.add(serverAddress);
-            });
-
+            List<ServerAddress> serverAddressList = hostport.stream().map(this::toServerAddress).collect(Collectors.toList());
             serverAddressList.forEach(s -> LOGGER.info("Initializing Mongo Client server ReplicaSet at: {}", s));
-
-            if (StringUtils.isEmpty(userName)) {
-                client = new MongoClient(serverAddressList);
-            } else {
-                MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(
-                        userName, databaseName, password.toCharArray());
-                client = new MongoClient(serverAddressList, Collections.singletonList(mongoCredential), opts);
-            }
+            settings.applyToClusterSettings(builder -> builder.hosts(serverAddressList));
         } else {
             ServerAddress serverAddr = new ServerAddress(host, port);
             LOGGER.info("Initializing Mongo Client server at: {}", serverAddr);
-            if (StringUtils.isEmpty(userName)) {
-                client = new MongoClient(serverAddr);
-            } else {
-                MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(
-                        userName, databaseName, password.toCharArray());
-                client = new MongoClient(serverAddr, Collections.singletonList(mongoCredential), opts);
-            }
-
+            settings.applyConnectionString(new ConnectionString("mongodb://" + host + ":" + port));
         }
+
+        if (StringUtils.hasText(userName)) {
+            settings.credential(MongoCredential.createScramSha1Credential(userName, databaseName, password.toCharArray()));
+        }
+
+        MongoClient client = MongoClients.create(settings.build());
         LOGGER.info("Connecting to Mongo: {}", client);
         return client;
     }
 
-    @Override
+    private ServerAddress toServerAddress(String hostPort) {
+        String myHost = hostPort.substring(0, hostPort.indexOf(":"));
+        int myPort = Integer.parseInt(hostPort.substring(hostPort.indexOf(":") + 1));
+        return new ServerAddress(myHost, myPort);
+    }
+
     protected String getMappingBasePackage() {
         return com.capitalone.dashboard.exec.model.Portfolio.class.getPackage().getName();
     }
 
     @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
-        return new MongoTemplate(mongo(), getDatabaseName());
+    public MongoTemplate mongoTemplate() {
+        return new MongoTemplate(mongoClient(), getDatabaseName());
     }
 
     @Bean

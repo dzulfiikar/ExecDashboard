@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.BuildingBlockMetricSummaryResponse;
 
 /**
  * Interface BuildingBlockMetricSummaryRepository extends
- * PagingAndSortingRepository<BuildingBlockMetricSummaryResponse, ObjectId>
+ * MongoRepository<BuildingBlockMetricSummaryResponse, ObjectId>
  * 
  *
  */
 public interface BuildingBlockMetricSummaryRepository
-		extends PagingAndSortingRepository<BuildingBlockMetricSummaryResponse, ObjectId> {
+		extends MongoRepository<BuildingBlockMetricSummaryResponse, ObjectId> {
 	/**
 	 * findByAppId()
 	 * 

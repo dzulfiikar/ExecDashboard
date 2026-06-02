@@ -34,11 +34,11 @@ public class ExternalMonitorServiceImpl implements ExternalMonitorService {
 	@Override
 	public List<ExternalSystemMonitor> getLatestRecord() {
 		List<ExternalSystemMonitor> results = new ArrayList<>();
-		List<String> distinctsources = mongoTemplate.getCollection("externalmonitor").distinct("sourceSystemName");
+		List<String> distinctsources = mongoTemplate.getCollection("externalmonitor").distinct("sourceSystemName", String.class).into(new ArrayList<>());
 		for (String type : distinctsources) {
 			Query query = new Query();
 			query.addCriteria(new Criteria().where("sourceSystemName").is(type));
-			query.with(new Sort(Sort.Direction.DESC, "lastConnectedTime"));
+			query.with(Sort.by(Sort.Direction.DESC, "lastConnectedTime"));
 			query.limit(1);
 			ExternalSystemMonitor result = mongoTemplate.findOne(query, ExternalSystemMonitor.class);
 			results.add(result);

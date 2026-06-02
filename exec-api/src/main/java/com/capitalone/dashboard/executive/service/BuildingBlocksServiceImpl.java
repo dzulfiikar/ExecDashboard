@@ -45,7 +45,7 @@ public class BuildingBlocksServiceImpl implements BuildingBlocksService {
     @Override
     public List<BuildingBlocks> getBuildingBlocks(MetricLevel metricLevel, MetricType metricType, String portfolioId) {
         ObjectId id = new ObjectId(portfolioId);
-        PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(id);
+        PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(id).orElse(null);
         if (portfolioResponse != null) {
             ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
                     .findByEid(portfolioResponse.getEid());
@@ -60,7 +60,7 @@ public class BuildingBlocksServiceImpl implements BuildingBlocksService {
     @Override
     public List<BuildingBlocks> getBuildingBlocksProducts(String id) {
         ObjectId portfolioId = new ObjectId(id);
-        PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+        PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
         if (portfolioResponse != null) {
             ExecutiveSummaryList executiveSummaryList = executiveSummaryListRepository
                     .findByEid(portfolioResponse.getEid());
@@ -99,7 +99,7 @@ public class BuildingBlocksServiceImpl implements BuildingBlocksService {
     public List<BuildingBlocks> getBuildingBlocksPortfolios(String id) {
         List<BuildingBlocks> executives = new ArrayList<>();
         ObjectId portfolioId = new ObjectId(id);
-        PortfolioResponse portfolioResponse = portfolioResponseRepository.findOne(portfolioId);
+        PortfolioResponse portfolioResponse = portfolioResponseRepository.findById(portfolioId).orElse(null);
         if (portfolioResponse != null) {
             ExecutiveHierarchy executiveHierarchy = executiveHierarchyRepository.findByEid(portfolioResponse.getEid());
             if (executiveHierarchy != null && executiveHierarchy.getReportees() != null) {
@@ -140,7 +140,7 @@ public class BuildingBlocksServiceImpl implements BuildingBlocksService {
     @Override
     public BuildingBlocks getBuildingBlocksProducts(String portfolioId, String productId) {
         ObjectId id = new ObjectId(productId);
-        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findOne(id);
+        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findById(id).orElse(null);
         if (buildingBlockMetricSummary != null)
             return buildingBlocksRepository.findByMetricLevelIdAndMetricLevel(
                     buildingBlockMetricSummary.getMetricLevelId(), MetricLevel.PRODUCT);
@@ -151,7 +151,7 @@ public class BuildingBlocksServiceImpl implements BuildingBlocksService {
     public List<BuildingBlocks> getBuildingBlocksComponents(String productId) {
         List<BuildingBlocks> result = new ArrayList<>();
         ObjectId id = new ObjectId(productId);
-        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findOne(id);
+        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findById(id).orElse(null);
         if (buildingBlockMetricSummary != null)
             return buildingBlocksRepository.getAllByMetricLevelIdAndMetricLevel(
                     buildingBlockMetricSummary.getMetricLevelId(), MetricLevel.COMPONENT);
@@ -162,7 +162,7 @@ public class BuildingBlocksServiceImpl implements BuildingBlocksService {
     public List<BuildingBlocks> getBuildingBlocksComponentsForMetric(String productId, MetricType metricType) {
         List<BuildingBlocks> result = new ArrayList<>();
         ObjectId id = new ObjectId(productId);
-        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findOne(id);
+        BuildingBlocks buildingBlockMetricSummary = buildingBlocksRepository.findById(id).orElse(null);
         if (buildingBlockMetricSummary != null)
             return buildingBlocksRepository.findByMetricLevelIdAndMetricLevelAndMetricType(
                     buildingBlockMetricSummary.getMetricLevelId(), MetricLevel.COMPONENT, metricType);

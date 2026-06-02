@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.Vast;
 
-public interface VastRepository extends PagingAndSortingRepository<Vast, ObjectId> {
+public interface VastRepository extends MongoRepository<Vast, ObjectId> {
 
 	List<Vast> findAll();
 

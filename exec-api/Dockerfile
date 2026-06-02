@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM eclipse-temurin:17-jre
 EXPOSE 8080
 VOLUME /var/app/config
 ARG JAR_FILE

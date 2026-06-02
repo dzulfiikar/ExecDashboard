@@ -151,7 +151,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public List<ExecutiveStatus> getExecutivesAccessedList() {
 		List<ExecutiveStatus> executivesList = new ArrayList<>();
-		List<String> executiveIds = mongoTemplate.getCollection(EXECUTIVES).distinct(EID);
+		List<String> executiveIds = mongoTemplate.getCollection(EXECUTIVES).distinct(EID, String.class).into(new ArrayList<>());
 		Long timeStamp = System.currentTimeMillis() - 5184000000l;
 		List<UserTrack> userTrackList = userTrackRepository.getByTimeStampAndEid(timeStamp, executiveIds);
 		if (userTrackList != null)

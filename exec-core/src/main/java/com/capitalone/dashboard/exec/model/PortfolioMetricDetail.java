@@ -1,6 +1,6 @@
 package com.capitalone.dashboard.exec.model;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;

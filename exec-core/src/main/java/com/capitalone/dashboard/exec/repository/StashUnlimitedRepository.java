@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.capitalone.dashboard.exec.model.StashUnlimitedInfo;
 
 @Repository
-public interface StashUnlimitedRepository extends PagingAndSortingRepository<StashUnlimitedInfo, ObjectId> {
+public interface StashUnlimitedRepository extends MongoRepository<StashUnlimitedInfo, ObjectId> {
 
 	@Query(value = " {'appId' : ?0}")
 	StashUnlimitedInfo checkByAppId(String appId);

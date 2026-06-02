@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class VonkinatorServiceImpl implements VonkinatorService {
 
 	@Override
 	public List<VonkinatorDataSet> getVonkinatorAllDataSet() {
-		List<String> appIds = mongoTemplate.getCollection("app_details").distinct("appId");
+		List<String> appIds = mongoTemplate.getCollection("app_details").distinct("appId", String.class).into(new ArrayList<>());
 		List<VonkinatorDataSet> vonkinatorDataSet = vonkinatorDataSetRepository.findByAppIds(appIds);
 		try {
 			if (vonkinatorDataSet != null) {

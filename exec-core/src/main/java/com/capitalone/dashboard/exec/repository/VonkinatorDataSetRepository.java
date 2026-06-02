@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.VonkinatorDataSet;
 
@@ -12,7 +12,7 @@ import com.capitalone.dashboard.exec.model.VonkinatorDataSet;
  *
  *
  */
-public interface VonkinatorDataSetRepository extends PagingAndSortingRepository<VonkinatorDataSet, ObjectId> {
+public interface VonkinatorDataSetRepository extends MongoRepository<VonkinatorDataSet, ObjectId> {
 
 	/**
 	 * @param appId

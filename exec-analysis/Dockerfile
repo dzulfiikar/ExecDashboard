@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM eclipse-temurin:17-jre
 VOLUME /var/app/config
 ARG JAR_FILE
 COPY ${JAR_FILE} /var/app/analysis.jar

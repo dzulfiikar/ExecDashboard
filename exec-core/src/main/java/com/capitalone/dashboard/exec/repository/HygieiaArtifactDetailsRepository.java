@@ -1,7 +1,7 @@
 package com.capitalone.dashboard.exec.repository;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.capitalone.dashboard.exec.model.HygieiaArtifactDetails;
 
@@ -10,7 +10,7 @@ import com.capitalone.dashboard.exec.model.HygieiaArtifactDetails;
  *
  *
  */
-public interface HygieiaArtifactDetailsRepository extends PagingAndSortingRepository<HygieiaArtifactDetails, ObjectId> {
+public interface HygieiaArtifactDetailsRepository extends MongoRepository<HygieiaArtifactDetails, ObjectId> {
 	/**
 	 * 
 	 * @param artifactName

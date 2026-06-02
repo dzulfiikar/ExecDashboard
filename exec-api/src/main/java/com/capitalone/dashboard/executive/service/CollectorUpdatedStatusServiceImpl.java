@@ -48,7 +48,7 @@ public class CollectorUpdatedStatusServiceImpl implements CollectorUpdatedStatus
 		if (metricType.equalsIgnoreCase(CollectorType.MetricsProcessor.toString())) {
 
 			List<String> collectors = mongoTemplate.getCollection("collector_updated_details")
-					.distinct("collectionName");
+					.distinct("collectionName", String.class).into(new ArrayList<>());
 
 			for (String collectionName : collectors) {
 				CollectorUpdatedDetails collectorCurrentDetails = collectorUpdatedDetailsRepository
